@@ -30,27 +30,36 @@ public class PackageSorter {
 
         final List<String> result = new ArrayList<>();
 
-        for (int i = MAX_ARTICLE_SIZE; i > 0; i--) {
-            while (articles.get(i) > 0) {
-                // Update article stock
-                final Long currentSizeAvailable = articles.get(i);
-                articles.put(i, currentSizeAvailable - 1);
-
-                final StringBuilder currentPackageContent = new StringBuilder().append(i);
-                int currentPackageContentSize = i;
-                for (int j = i; j > 0; j--) {
-                    final Long newSizeAvailable = articles.get(j);
-                    if (newSizeAvailable > 0 && currentPackageContentSize + j <= MAX_PACKAGE_SIZE) {
-                        // Add article
-                        currentPackageContentSize += j;
-                        articles.put(j, newSizeAvailable - 1);
-                        currentPackageContent.append(j);
-                    }
+        while (articlesLeft(articles)) {
+            final StringBuilder currentPackageContent = new StringBuilder();
+            int currentPackageContentSize = 0;
+            for (int i = MAX_ARTICLE_SIZE; i > 0; i--) {
+                while (articles.get(i) > 0 && currentPackageContentSize + i <= MAX_PACKAGE_SIZE) {
+                    // Add article
+                    currentPackageContentSize += i;
+                    articles.put(i, articles.get(i) - 1);
+                    currentPackageContent.append(i);
                 }
-                result.add(currentPackageContent.toString());
             }
+            result.add(currentPackageContent.toString());
         }
         return result.stream().collect(Collectors.joining("/"));
+
+    }
+
+    /**
+     * Return true if an articles is on the stock
+     * 
+     * @param articles
+     * @return
+     */
+    private static boolean articlesLeft(final Map<Integer, Long> articles) {
+        for (final Long l : articles.values()) {
+            if (l > 0L) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

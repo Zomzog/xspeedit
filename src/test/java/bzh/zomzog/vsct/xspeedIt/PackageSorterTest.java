@@ -49,13 +49,26 @@ public class PackageSorterTest {
      * Best sort : "82/1" => 2 packages
      */
     @Test
-    public void fiveHellTest() {
+    public void multipleFiveTest() {
         final String input = "55";
 
         final String result = PackageSorter.sort(input);
         TestUtils.checkArticleList(input, result);
         final String[] packageList = result.split(PackageSorter.SEPARATOR);
         assertThat(packageList).hasSize(1);
+    }
+
+    /**
+     * Best sort : "82/1" => 2 packages
+     */
+    @Test
+    public void multipleSameSizeTest() {
+        final String input = "22222222222";
+
+        final String result = PackageSorter.sort(input);
+        TestUtils.checkArticleList(input, result);
+        final String[] packageList = result.split(PackageSorter.SEPARATOR);
+        assertThat(packageList).hasSize(3);
     }
 
     /**
