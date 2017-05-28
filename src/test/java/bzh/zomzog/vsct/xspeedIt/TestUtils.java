@@ -6,16 +6,40 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import bzh.zomzog.vsct.xspeedIt.service.ParcelService;
+
+/**
+ * Utils for tests
+ * 
+ * @author Thibault Duperron
+ *
+ */
 public class TestUtils {
 
-    public static void checkArticleList(final String input, final String result) {
-        System.out.println("Input  : " + input);
-        System.out.println("Result : " + result);
-        final String flitredResult = result.replace(PackageSorter.SEPARATOR, "");
-        assertThat(sortString(input)).isEqualTo(sortString(flitredResult));
+    /**
+     * Check if articles all articles are in parcels
+     * 
+     * @param articles
+     *            articles as String
+     * @param parcels
+     *            parcels as string separated by
+     *            {@value ParcelService#SEPARATOR}
+     */
+    public static void checkAllArticlesOnParcels(final String articles, final String parcels) {
+        System.out.println("Input  : " + articles);
+        System.out.println("Result : " + parcels);
+        final String flitredResult = parcels.replace(ParcelService.SEPARATOR, "");
+        assertThat(sortStringChars(articles)).isEqualTo(sortStringChars(flitredResult));
     }
 
-    private static String sortString(final String s) {
+    /**
+     * Sort char of a string
+     * 
+     * @param s
+     *            the string
+     * @return the string sorted
+     */
+    private static String sortStringChars(final String s) {
         final char[] chars = s.toCharArray();
         Arrays.sort(chars);
         final String sorted = new String(chars);
@@ -24,15 +48,15 @@ public class TestUtils {
 
     @Test
     public void sortStringTest() {
-        assertThat(sortString("aabbcc")).isEqualTo("aabbcc");
-        assertThat(sortString("abcabc")).isEqualTo("aabbcc");
-        assertThat(sortString("zer")).isEqualTo("erz");
+        assertThat(sortStringChars("aabbcc")).isEqualTo("aabbcc");
+        assertThat(sortStringChars("abcabc")).isEqualTo("aabbcc");
+        assertThat(sortStringChars("zer")).isEqualTo("erz");
     }
 
     @Test
     public void checkArticleListTest() {
-        checkArticleList("aabbcc", "aa/bb/cc");
-        checkArticleList("aabbcc", "ab/ca/bc");
-        checkArticleList("zer", "z/er");
+        checkAllArticlesOnParcels("aabbcc", "aa/bb/cc");
+        checkAllArticlesOnParcels("aabbcc", "ab/ca/bc");
+        checkAllArticlesOnParcels("zer", "z/er");
     }
 }
