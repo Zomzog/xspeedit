@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Zomzog/xspeedit.svg?branch=master)](https://travis-ci.org/Zomzog/xspeedit)
+
 XspeedIt
 ========
 
@@ -32,4 +34,21 @@ L'ordre des cartons et des articles n'a pas d'importance.
 Articles      : 163841689525773  
 Robot actuel  : 163/8/41/6/8/9/52/5/7/73 => 10 cartons utilisés  
 Robot optimisé: 163/82/46/19/8/55/73/7   => 8  cartons utilisés
+```
+Quick start
+--------
+
+*Build*
+```
+mvnw install
+```
+*Run*
+
+Sans les articles :
+```
+java -jar .\target\xspeedIt-0.0.1-SNAPSHOT.jar
+```
+Avec les articles:
+```
+java -jar .\target\xspeedIt-0.0.1-SNAPSHOT.jar 163841689525773
 ```
